@@ -7,18 +7,42 @@ import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 console.log(HEIGHT);
+console.log("WIDTH: "+ WIDTH);
 const RADIUS = 25;
 var count = 0;
 const titleText = "HELLO";
 var touchCount = 0;
+var xVals = new Array(WIDTH);
+var yValsAbove = new Array(WIDTH);
+var yValsBelow = new Array(WIDTH);
+const a=(490/2)*(490/2);
+console.log("a: " + a);
+const b=(WIDTH/2)*(WIDTH/2);
+console.log("b: " + b);
 
+for(var i=0; i<=WIDTH; i++) {
+  xVals[i] = i;
+}
+
+  for(var l=0; l<xVals.length; l++) {
+    var temp=(xVals[l]*xVals[l])/b;
+    console.log(temp);
+    temp = 1-temp;
+    console.log(temp);
+    temp = a*temp;
+    console.log(temp);
+    yValsAbove[l]=Math.sqrt(temp);
+    yValsBelow[l]=245+yValsAbove[l];
+    console.log("yValue " + l + ":" + yValsAbove[l]);
+    
+  }
 export default class App extends PureComponent {
   constructor() {
     super();
     this.spinValue = new Animated.Value(0),
     this.state = {
-      x: WIDTH / 2,
-      y: 0,
+      x: xVals[0],
+      y: yValsAbove[0],
       countText: count,
     };
   }

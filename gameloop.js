@@ -16,4 +16,18 @@
       </GameLoop>
 
       </React.Fragment>
+
+
+
+for(var l=0; l<xVals.length; l++) {
+  var temp=(xVals[l]*xVals[l])/b;
+  console.log(temp);
+  temp = 1-temp;
+  console.log(temp);
+  temp = a*temp;
+  console.log(temp);
+  yValsAbove[l]=Math.sqrt(temp);
+  yValsBelow[l]=245+yValsAbove[l];
+  console.log("yValue " + l + ":" + yValsAbove[l]);
+  }
       
