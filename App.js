@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 import { AppRegistry, Alert, Animated, Button, Easing, StyleSheet, Text, View, Dimensions, ImageBackground } from 'react-native';
 import { GameEngine } from "react-native-game-engine";
 import { GameLoop } from "react-native-game-engine";
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
+console.log(HEIGHT);
 const RADIUS = 25;
 var count = 0;
 const titleText = "HELLO";
@@ -15,8 +17,8 @@ export default class App extends PureComponent {
     super();
     this.spinValue = new Animated.Value(0),
     this.state = {
-      x: WIDTH / 2 - RADIUS,
-      y: HEIGHT /2 - RADIUS,
+      x: WIDTH / 2,
+      y: 0,
       countText: count,
     };
   }
@@ -42,11 +44,43 @@ export default class App extends PureComponent {
 
 
   updateHandler = ({ touches, screen, time }) => {
-     
-    if(this.state.x <400) {
+    if(this.state.x <WIDTH && this.state.y<490) {
       this.setState({
-        x: this.state.x + 1,
+        x: this.state.x + 5,
         y: this.state.y
+      });
+    }
+
+    if(this.state.x==WIDTH) {
+      this.setState({
+        x:this.state.x,
+        y:this.state.y+5
+
+      });
+
+      if(this.state.y==490){
+        this.setState({
+          x:this.state.x-5,
+          y:this.state.y
+  
+        });
+      }
+    }
+
+    if(this.state.y==490) {
+      this.setState({
+        x:this.state.x-5,
+        y:this.state.y
+
+      });
+      
+    }
+
+    if(this.state.x==0 && this.state.y>0) {
+      this.setState({
+        x:this.state.x,
+        y:this.state.y-5
+
       });
     }
     };
@@ -57,8 +91,7 @@ export default class App extends PureComponent {
       outputRange: ['0deg', '360deg']
     })
     return (
-      <ImageBackground source={require('./speedwayr.png')} style={styles.image}>
-
+      <React.Fragment>
       <Text style={styles.baseText}>
         <Text style={styles.titleText} onPress={this.onPressTitle}>
           {this.state.titleText}{'\n'}{'\n'}
@@ -69,13 +102,11 @@ export default class App extends PureComponent {
       </Text>
       <GameLoop onUpdate={this.updateHandler}>
       <View style={[{ left: this.state.x-100, top: this.state.y }]}>
-      <Animated.Image style={{width: 125, height: 75}}
+      <Animated.Image style={{width: 75, height: 45}}
       source={{uri: 'https://image.flaticon.com/icons/png/128/171/171239.png'}} />
       </View>
       </GameLoop>
-
-      </ImageBackground>
-
+</React.Fragment>
     );
   }
 }
