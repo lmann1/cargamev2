@@ -7,6 +7,8 @@ import { GameLoop } from "react-native-game-engine";
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const RADIUS = 25;
 var count = 0;
+const titleText = "HELLO";
+var touchCount = 0;
 
 export default class App extends PureComponent {
   constructor() {
@@ -18,7 +20,6 @@ export default class App extends PureComponent {
       countText: count,
     };
   }
-
   componentDidMount() {
     this.spin()
   }
@@ -35,18 +36,20 @@ export default class App extends PureComponent {
       ).start(() => this.spin())
   }
 
+  updateCar() {
+    this.setState()
+  }
+
 
   updateHandler = ({ touches, screen, time }) => {
-    let move = touches.find(x => x.type === "move");
-    if(move) {
-      count = count+1;
-      console.log(count);
+     
+    if(this.state.x <400) {
       this.setState({
-        x: this.state.x + move.delta.pageX,
-        y: this.state.y + move.delta.pageY
+        x: this.state.x + 1,
+        y: this.state.y
       });
     }
-  };
+    };
 
   render() {
     const spin = this.spinValue.interpolate({
@@ -64,11 +67,9 @@ export default class App extends PureComponent {
           {this.state.bodyText}
         </Text>
       </Text>
-
-      
       <GameLoop onUpdate={this.updateHandler}>
-      <View style={[{ left: this.state.x, top: this.state.y }]}>
-      <Animated.Image style={{width: 100, height: 75, transform: [{rotate: spin}]}}
+      <View style={[{ left: this.state.x-100, top: this.state.y }]}>
+      <Animated.Image style={{width: 125, height: 75}}
       source={{uri: 'https://image.flaticon.com/icons/png/128/171/171239.png'}} />
       </View>
       </GameLoop>
@@ -99,7 +100,7 @@ titleText:{
 
 image: {
   width: WIDTH,
-  height: HEIGHT,
+  height: HEIGHT
 },
 });
  
